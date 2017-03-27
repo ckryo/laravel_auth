@@ -4,7 +4,7 @@
     "type": "library",
     "license": "MIT",
     "keywords": ["laravel", "auth", "json auth"],
-    "version": "5.4.0",
+    "version": "1.0.0",
     "support": {
         "issues": "https://github.com/laravel/laravel_auth/issues",
         "source": "https://github.com/ckryo/laravel_auth"
@@ -20,7 +20,8 @@
         "illuminate/http": "5.4.*",
         "illuminate/support": "5.4.*",
         "illuminate/auth": "5.4.*",
-        "illuminate/contracts": "5.4.*"
+        "illuminate/contracts": "5.4.*",
+        "ckryo/laravel_auth": "dev"
     },
     "autoload": {
         "psr-4": {
