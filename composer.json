@@ -5,6 +5,8 @@
     "license": "MIT",
     "keywords": ["laravel", "auth", "json auth"],
     "version": "1.0.0",
+    "minimum-stability": "dev",
+    "prefer-stable" : true,
     "support": {
         "issues": "https://github.com/laravel/laravel_auth/issues",
         "source": "https://github.com/ckryo/laravel_auth"
