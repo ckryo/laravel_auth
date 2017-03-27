@@ -1,0 +1,30 @@
+{
+    "name": "ckryo/laravel_auth",
+    "description": "laravel json auth",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["laravel", "auth", "json auth"],
+    "version": "5.4.0",
+    "support": {
+        "issues": "https://github.com/laravel/laravel_auth/issues",
+        "source": "https://github.com/ckryo/laravel_auth"
+    },
+    "authors": [
+        {
+            "name": "ckryo",
+            "email": "ckryo@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.4",
+        "illuminate/http": "5.4.*",
+        "illuminate/support": "5.4.*",
+        "illuminate/auth": "5.4.*",
+        "illuminate/contracts": "5.4.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ckryo\\Laravel\\Auth\\": "src"
+        }
+    }
+}
