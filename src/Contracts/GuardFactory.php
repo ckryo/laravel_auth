@@ -1,5 +1,5 @@
 <?php
-namespace Ckryo\Auth\Contracts;
+namespace Ckryo\AdminAuth\Contracts;
 
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 

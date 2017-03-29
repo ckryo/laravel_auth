@@ -1,9 +1,8 @@
 <?php
 
-namespace Ckryo\Auth;
+namespace Ckryo\AdminAuth;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Ckryo\Response\ErrorCode;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -14,10 +13,25 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(Request $request)
+    public function boot(ErrorCode $errorCode)
     {
-        Auth::extend('json', function($app, $name, array $config) use ($request) {
-            return new JsonGuard(Auth::createUserProvider($config['provider']), $request);
+        $this->loadRoutesFrom(__DIR__.'/routes.php');
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations');
+
+        $errCodes = require __DIR__.'/../config/errCode.php';
+        foreach ($errCodes as $model => $codes) {
+            $errorCode->regist($model, $codes);
+        }
+    }
+
+    public function regist()
+    {
+        $this->app->singleton('auth', function ($app) {
+            return new Auth($app['request']);
+        });
+
+        $this->app->bind(Auth::class, function ($app) {
+            return $app->make('auth');
         });
     }
 

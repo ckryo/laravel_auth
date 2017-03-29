@@ -1,9 +1,9 @@
 <?php
 
-namespace Ckryo\Auth;
+namespace Ckryo\AdminAuth;
 
 use Ckryo\Auth\Contracts\GuardFactory;
-use Illuminate\Auth\GuardHelpers;
+use Ckryo\Logi\Facades\Logi;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -89,6 +89,7 @@ class JsonGuard implements GuardFactory
         $token = Str::random(8) . md5("admin_{$user->id}__{$time}") . Str::random(60);
         $user->setRememberToken($token);
         $this->provider->updateRememberToken($user, $token);
+        Logi::login($user->id, $token);
         return $token;
     }
 
