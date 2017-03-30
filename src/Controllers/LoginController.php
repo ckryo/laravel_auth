@@ -5,6 +5,7 @@ namespace Ckryo\AdminAuth\Controllers;
 use App\Http\Controllers\Controller;
 use Ckryo\AdminAuth\Auth;
 use Ckryo\AdminAuth\Models\User;
+use Ckryo\Menu\Menu;
 use Ckryo\Response\ErrorCodeException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -29,7 +30,7 @@ class LoginController extends Controller
             return response()->ok('登录成功', [
                 'user_info' => [],
                 'org_info' => [],
-                'menu_info' => [],
+                'menu_info' => Menu::getMenus($user),
                 'api_token' => $token
             ]);
         }
