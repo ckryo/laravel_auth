@@ -1,8 +1,8 @@
 <?php
 
-namespace Ckryo\AdminAuth;
+namespace Ckryo\Laravel\Auth;
 
-use Ckryo\Response\ErrorCode;
+use Ckryo\Laravel\Http\ErrorCode;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -16,7 +16,6 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(ErrorCode $errorCode)
     {
         $this->loadRoutesFrom(__DIR__.'/routes.php');
-        $this->loadMigrationsFrom(__DIR__ . '/../migrations');
 
         $errCodes = require __DIR__.'/../config/errCode.php';
         foreach ($errCodes as $model => $codes) {

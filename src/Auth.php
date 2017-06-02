@@ -1,50 +1,67 @@
 <?php
 
-namespace Ckryo\AdminAuth;
+namespace Ckryo\Laravel\Auth;
 
-use Ckryo\AdminAuth\Models\User;
-use Ckryo\Logi\Facades\Logi;
-use Ckryo\Response\ErrorCodeException;
+use Ckryo\Laravel\Logi\Facades\Logi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class Auth
 {
-    use GuardHelpers;
-
     protected $user;
 
     protected $request;
+
+    protected $request_auth_key = "auth-token";
 
     function __construct(Request $request)
     {
         $this->request = $request;
     }
 
+    /**
+     * Get the token for the current request.
+     *
+     * @return string
+     */
+    public function getTokenForRequest()
+    {
+        $token = $this->request->query($this->request_auth_key);
 
-    public function user()
+        if (empty($token)) {
+            $token = $this->request->input($this->request_auth_key);
+        }
+
+        return $token;
+    }
+
+
+    public function user($action = "json")
     {
         if (! is_null($this->user)) {
             return $this->user;
         }
 
         $user = null;
-        $token = $this->request->header('api-token');
+        $token = $this->getTokenForRequest();
+
+        // 获取用户模型
+        $model = config('auth');
 
         if (! empty($token)) { // 从驱动中获取 用户信息
-            $user = User::where('remember_token', $token)->first();
+            $user = $model->where($this->modelIdentifiedKey($action), $token)->first();
         }
 
         return $this->user = $user;
     }
 
-    public function id()
-    {
-        if ($this->user()) {
-            return $this->user()->id;
-        }
-
-        return null;
+    /**
+     * 获取默认key - 保证数据库存在此字段
+     * @param string $action
+     * @return string
+     */
+    function modelIdentifiedKey ($action = "json") {
+        return $action."_token";
     }
 
     /**
@@ -52,13 +69,15 @@ class Auth
      * 登录
      *
      * @param User $user 登录用户
+     * @param string $action 登录方式
      * @return string 返回 token
      */
-    public function login(User $user)
+    public function login(User $user, $action = "json")
     {
+        $modelKey = $this->modelIdentifiedKey($action);
         $time = time();
-        $token = Str::random(8) . md5("admin_{$user->id}__{$time}") . Str::random(60);
-        $user->remember_token = $token;
+        $token = Str::random(8) . md5($action."_{$user->id}__{$time}") . Str::random(60);
+        $user->$modelKey = $token;
         $user->save();
         Logi::login($user->id, $token);
         return $token;

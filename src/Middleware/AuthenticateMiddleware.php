@@ -2,7 +2,8 @@
 
 namespace Ckryo\AdminAuth\Middleware;
 
-use Ckryo\AdminAuth\Auth;
+use Ckryo\Laravel\Auth\Auth;
+use Ckryo\Laravel\Handler\ErrorCodeException;
 use Closure;
 
 class AuthenticateMiddleware
@@ -26,18 +27,17 @@ class AuthenticateMiddleware
     }
 
     /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string[]  ...$guards
+     * @param $request
+     * @param Closure $next
+     * @param string $action
      * @return mixed
-     *
-     * @throws \Illuminate\Auth\AuthenticationException
+     * @throws ErrorCodeException
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $action = "json")
     {
-        $this->auth->authenticate();
+        if (is_null($this->auth->user($action))) {
+            throw new ErrorCodeException(200);
+        }
 
         return $next($request);
     }
