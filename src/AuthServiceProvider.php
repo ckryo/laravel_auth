@@ -15,8 +15,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(ErrorCode $errorCode)
     {
-        $this->loadRoutesFrom(__DIR__.'/routes.php');
-
         $errCodes = require __DIR__.'/../config/errCode.php';
         foreach ($errCodes as $model => $codes) {
             $errorCode->regist($model, $codes);

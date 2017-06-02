@@ -1,6 +1,6 @@
 <?php
 
-namespace Ckryo\AdminAuth\Middleware;
+namespace Ckryo\Laravel\Auth\Middleware;
 
 use Ckryo\Laravel\Auth\Auth;
 use Ckryo\Laravel\Handler\ErrorCodeException;
