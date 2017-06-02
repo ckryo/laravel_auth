@@ -2,7 +2,7 @@
 
 namespace Ckryo\Laravel\Auth;
 
-use Ckryo\Laravel\Http\ErrorCode;
+use Ckryo\Laravel\Handler\ErrorCode;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
