@@ -23,12 +23,16 @@ class AuthServiceProvider extends ServiceProvider
 
     public function regist()
     {
-        $this->app->singleton('auth', function ($app) {
+        $this->app->singleton('admin_auth', function ($app) {
             return new Auth($app['request']);
         });
 
         $this->app->bind(Auth::class, function ($app) {
-            return $app->make('auth');
+            return $app->make('admin_auth');
+        });
+
+        $this->app->bind('auth', function ($app) {
+            return $app->make('admin_auth');
         });
     }
 
