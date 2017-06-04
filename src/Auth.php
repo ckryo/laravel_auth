@@ -3,6 +3,7 @@
 namespace Ckryo\Laravel\Auth;
 
 use Ckryo\Laravel\Logi\Facades\Logi;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -68,11 +69,11 @@ class Auth
      *
      * 登录
      *
-     * @param User $user 登录用户
+     * @param Model $user 登录用户
      * @param string $action 登录方式
      * @return string 返回 token
      */
-    public function login(User $user, $action = "json")
+    public function login(Model $user, $action = "json")
     {
         $modelKey = $this->modelIdentifiedKey($action);
         $time = time();
