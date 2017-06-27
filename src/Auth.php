@@ -27,7 +27,11 @@ class Auth
      */
     public function getTokenForRequest()
     {
-        $token = $this->request->query($this->request_auth_key);
+        if ($this->request->hasHeader($this->request_auth_key)) {
+            $token = $this->request->header($this->request_auth_key);
+        } else {
+            $token = $this->request->query($this->request_auth_key);
+        }
 
         if (empty($token)) {
             $token = $this->request->input($this->request_auth_key);
