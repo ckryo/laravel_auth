@@ -80,6 +80,7 @@ class Auth
         $token = Str::random(8) . md5($action."_{$user->id}__{$time}") . Str::random(60);
         $user->$modelKey = $token;
         $user->save();
+        $this->user = $user;
         Logi::login($user->id, $token);
         return $token;
     }
