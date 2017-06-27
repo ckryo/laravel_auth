@@ -13,6 +13,8 @@ class Auth
 
     protected $request;
 
+    protected $token;
+
     protected $request_auth_key = "auth-token";
 
     function __construct(Request $request)
@@ -27,6 +29,8 @@ class Auth
      */
     public function getTokenForRequest()
     {
+        if ($this->token) return $this->token;
+
         if ($this->request->hasHeader($this->request_auth_key)) {
             $token = $this->request->header($this->request_auth_key);
         } else {
@@ -37,7 +41,7 @@ class Auth
             $token = $this->request->input($this->request_auth_key);
         }
 
-        return $token;
+        return $this->token = $token;
     }
 
 
